@@ -14,3 +14,17 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.image-underline{
+  border-bottom: 3px solid #407AB1 !important;
+}
+
+.loading-fade{
+  animation: loading-fade 3s linear infinite;
+}
+
+@keyframes loading-fade{
+  0%{opacity: 0;}
+  50%{opacity: .5;}
+  100%{opacity: 1;}
+}
