@@ -35,10 +35,10 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <Provider store={globalStore}>
       <Script
-        async
+        strategy="lazyOnload"
         src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
       />
-      <Script id="gtag-init">
+      <Script id="gtag-init" strategy="lazyOnload">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
