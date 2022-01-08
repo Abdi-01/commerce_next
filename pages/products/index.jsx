@@ -26,7 +26,7 @@ class ProductsPage extends React.Component {
         let { page, products } = this.state
         if (products)
             return products.slice(page > 1 ? (page - 1) * 8 : page - 1, page * 8).map((value, index) => {
-                return <div className="col-md-3 mt-3">
+                return <div key={index} className="col-md-3 mt-3">
                     <Card className="shadow" style={{ border: "none" }} onClick={() => gtag.event({
                         action: `view_product`,
                         category: value.kategori,

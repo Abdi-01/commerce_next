@@ -31,7 +31,7 @@ const HeaderComp = (props) => {
     const printCart = () => {
         return cart.map((value, index) => {
             return (
-                <DropdownItem style={{ width: "25vw", padding: 5 }}>
+                <DropdownItem key={index} style={{ width: "25vw", padding: 5 }}>
                     <div className="shadow-sm p-1 bg-white rounded" >
                         <div className='row'>
                             <div className="col-6 col-lg-2">
