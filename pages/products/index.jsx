@@ -8,6 +8,7 @@ import HeaderComp from '../../components/header';
 import { connect } from 'react-redux';
 import { loginAction, keepLogin } from '../../redux/actions'
 import HeadPage from '../../components/headPage';
+import * as gtag from "../../lib/gtag"
 
 class ProductsPage extends React.Component {
     constructor(props) {
@@ -26,9 +27,15 @@ class ProductsPage extends React.Component {
         if (products)
             return products.slice(page > 1 ? (page - 1) * 8 : page - 1, page * 8).map((value, index) => {
                 return <div className="col-md-3 mt-3">
-                    <Card className="shadow" style={{ border: "none" }}>
+                    <Card className="shadow" style={{ border: "none" }} onClick={() => gtag.event({
+                        action: `view_product`,
+                        category: value.kategori,
+                        label: "detail_product",
+                        value: value.nama,
+                    })}>
                         <Link href={`/products/product-detail?id=${value.id}`}
-                            style={{ textDecoration: "none", color: "black" }}>
+                            style={{ textDecoration: "none", color: "black" }}
+                        >
                             <CardImg top
                                 src={value.images[0]}
                                 width="100%"

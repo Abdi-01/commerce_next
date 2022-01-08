@@ -39,9 +39,15 @@ export default function Home() {
     keepLogin()
   }, []);
 
+  useEffect(() => {
+    if(iduser){
+      Router.push("/products")
+    }
+  });
+
   setTimeout(()=>setLoading(true), 2000)
 
-  if (loading) {
+  if (loading && !iduser) {
     return <div className={styles.container}>
       <Head>
         <title>Commerce</title>
