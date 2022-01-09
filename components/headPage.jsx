@@ -21,7 +21,7 @@ const HeadPage = (props) => {
         <meta name="description" content="All Products Collection by Commerce" />
 
         {/* <!-- Facebook Meta Tags --> */}
-        <meta property="og:url" content={`https://commerce-next-abdi-01.vercel.app${props.url.includes("?") ? props.url : "/products/"}`} />
+        <meta property="og:url" content={`https://commerce-next-abdi-01.vercel.app${props.url?.includes("?") ? props.url : "/products/"}`} />
 
         {/* <!-- Twitter Meta Tags --> */}
         <meta name="twitter:card" content="summary_large_image" />

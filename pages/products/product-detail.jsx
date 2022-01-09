@@ -30,7 +30,7 @@ class ProductDetail extends React.Component {
             // Konfigurasi Image dari nextJs, format dibawah ini digunakan untuk gambar yang diambil dari external URL
             // adanya atribute loader untuk meletakkan url image external
             return (
-                <div className='col-3 col-md-12 p-md-0 m-md-0'>
+                <div className='col-3 col-md-12 p-md-0 m-md-0' onClick={() => this.setState({ thumbnail: index })}>
                     <Image
                         className={`select-image mb-1 bg-white rounded ${this.state.thumbnail == index && "image-underline"}`}
                         loader={({ src }) => {
@@ -43,8 +43,6 @@ class ProductDetail extends React.Component {
                         height="100%"
                         layout='responsive'
                         objectFit={'contain'}
-                        onClick={() => this.setState({ thumbnail: index })}
-                        style={{ borderBottom: this.state.thumbnail == index && "3px solid #407AB1" }}
                     />
                 </div>
             )
