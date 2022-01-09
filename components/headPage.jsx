@@ -12,8 +12,9 @@ const HeadPage = (props) => {
         <title>{props.title} | Commerce</title>
         <meta property="og:title" content={`${props.title} | Commerce`} key="title" />
         <meta property="og:description" content={props.description} />
-        <meta property="og:image" content={props.image} key="ogimage" />
+        <meta property="og:image" itemprop="image" content={props.image} key="ogimage" />
         <meta property="og:site_name" content={"Commerce"} key="ogsitename" />
+        <meta property="og:type" content="website" />
     </Head>
 }
 
