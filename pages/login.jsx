@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Router from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { FormGroup, Label, Input, InputGroup, InputGroupText, Button, Toast, ToastHeader, ToastBody } from 'reactstrap';
 import HeadPage from '../components/headPage';
@@ -22,6 +23,14 @@ const LoginPage = (props) => {
         toastMessage: "",
         toastIcon: ""
     })
+
+    const { username, iduser } = useSelector((state) => {
+        console.log("cek get data", state)
+        return {
+            username: state.userReducer.username,
+            iduser: state.userReducer.id
+        }
+    });
 
     const onBtSubmit = () => {
         // console.log("data",username, email, password, confPassword)
@@ -83,6 +92,12 @@ const LoginPage = (props) => {
             })
         }
     }
+
+    useEffect(() => {
+        if (iduser) {
+            Router.push("/products")
+        }
+    })
 
     return (
         <div className="container p-5">

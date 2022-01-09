@@ -30,21 +30,23 @@ class ProductDetail extends React.Component {
             // Konfigurasi Image dari nextJs, format dibawah ini digunakan untuk gambar yang diambil dari external URL
             // adanya atribute loader untuk meletakkan url image external
             return (
-                <Image
-                    className={`select-image mb-1 bg-white rounded ${this.state.thumbnail == index && "image-underline"}`}
-                    loader={({ src }) => {
-                        return `${item}`
-                    }}
-                    key={index}
-                    src="image-link"
-                    alt="product"
-                    width="100%%"
-                    height="100%"
-                    layout='responsive'
-                    objectFit={'contain'}
-                    onClick={() => this.setState({ thumbnail: index })}
-                    style={{ borderBottom: this.state.thumbnail == index && "3px solid #407AB1" }}
-                />
+                <div className='col-3 col-md-12 p-md-0 m-md-0'>
+                    <Image
+                        className={`select-image mb-1 bg-white rounded ${this.state.thumbnail == index && "image-underline"}`}
+                        loader={({ src }) => {
+                            return `${item}`
+                        }}
+                        key={index}
+                        src="image-link"
+                        alt="product"
+                        width="100%%"
+                        height="100%"
+                        layout='responsive'
+                        objectFit={'contain'}
+                        onClick={() => this.setState({ thumbnail: index })}
+                        style={{ borderBottom: this.state.thumbnail == index && "3px solid #407AB1" }}
+                    />
+                </div>
             )
         })
     }
@@ -107,7 +109,7 @@ class ProductDetail extends React.Component {
                     image={this.props.detail.images[this.state.thumbnail]}
                 />
                 <div>
-                    <Toast isOpen={this.state.toastOpen} style={{ position: "fixed", right: 10 }}>
+                    <Toast isOpen={this.state.toastOpen} style={{ position: "fixed", right: 10, zIndex:10 }}>
                         <ToastHeader icon="warning"
                             toggle={() => this.setState({ toastOpen: false, toastMsg: "" })}>
                             Add to cart warning
@@ -117,32 +119,35 @@ class ProductDetail extends React.Component {
                         </ToastBody>
                     </Toast>
                 </div>
-                <div className="container row p-5 m-auto shadow bg-white rounded mt-4">
+                <div className="container row p-2 p-md-5 m-auto shadow bg-white rounded mt-4">
                     {
                         this.props.detail.id &&
                         <>
-                            <div className="col-md-1">
-                                {this.renderImages()}
-                            </div>
-                            <div className="col-md-7 text-center">
+                            <div className="col-md-8 row text-center p-3 p-md-2 mb-3 mb-md-0">
                                 {/* Jika gambar dari external */}
-                                <Image
-                                    className="shadow-sm bg-white rounded"
-                                    loader={({ src }) => {
-                                        return `${this.props.detail.images[this.state.thumbnail]}`
-                                    }}
-                                    src="image-link"
-                                    alt="product"
-                                    width="50%"
-                                    height="50%"
-                                    layout='responsive'
-                                    objectFit={'contain'}
-                                />
+
+                                <div className='col-10 order-md-2 mb-2 mb-md-0'>
+                                    <Image
+                                        className="shadow-sm bg-white rounded"
+                                        loader={({ src }) => {
+                                            return `${this.props.detail.images[this.state.thumbnail]}`
+                                        }}
+                                        src="image-link"
+                                        alt="product"
+                                        width="50%"
+                                        height="50%"
+                                        layout='responsive'
+                                        objectFit={'contain'}
+                                    />
+                                </div>
+                                <div className="col-md-2 order-md-1 row">
+                                    {this.renderImages()}
+                                </div>
                             </div>
                             <div className="col-md-4">
                                 <div style={{ borderBottom: '1.5px solid gray' }}>
+                                    <h6 className="text-muted">{this.props.detail.kategori}</h6>
                                     <h4 style={{ fontWeight: 'bolder' }}>{this.props.detail.nama}</h4>
-                                    <h6 className="text-mute">{this.props.detail.kategori}</h6>
                                     <h2 style={{ fontWeight: 'bolder' }}>Rp {this.props.detail.harga.toLocaleString()}</h2>
                                 </div>
                                 <div style={{ borderBottom: '1.5px solid gray' }}>
