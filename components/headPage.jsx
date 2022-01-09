@@ -21,6 +21,7 @@ const HeadPage = (props) => {
         <meta name="description" content="All Products Collection by Commerce" />
 
         {/* <!-- Facebook Meta Tags --> */}
+        {/* Get url from parent component by props */}
         <meta property="og:url" content={`https://commerce-next-abdi-01.vercel.app${props.url?.includes("?") ? props.url : "/products/"}`} />
 
         {/* <!-- Twitter Meta Tags --> */}

@@ -106,7 +106,7 @@ class ProductDetail extends React.Component {
                     title={this.props.detail.nama}
                     description={this.props.detail.deskripsi.split(".")[0]}
                     image={this.props.detail.images[this.state.thumbnail]}
-                    url={this.props.url}
+                    url={this.props.url} // send url and some data to HeadPage meta data component
                 />
                 <div>
                     <Toast isOpen={this.state.toastOpen} style={{ position: "fixed", right: 10, zIndex: 10 }}>
@@ -205,7 +205,7 @@ export const getServerSideProps = async (ctx) => {
 
         return {
             props: {
-                url: ctx.req.url,
+                url: ctx.req.url, // get page url from context, because next can't get url with window.location
                 detail: res.data[0]
             }
         }
