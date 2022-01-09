@@ -101,15 +101,17 @@ class ProductDetail extends React.Component {
     }
 
     render() {
+        // console.log("cek url", window.location.href)
         return (
             <div>
                 <HeadPage
                     title={this.props.detail.nama}
                     description={this.props.detail.deskripsi.split(".")[0]}
                     image={this.props.detail.images[this.state.thumbnail]}
+                    url={this.props.url}
                 />
                 <div>
-                    <Toast isOpen={this.state.toastOpen} style={{ position: "fixed", right: 10, zIndex:10 }}>
+                    <Toast isOpen={this.state.toastOpen} style={{ position: "fixed", right: 10, zIndex: 10 }}>
                         <ToastHeader icon="warning"
                             toggle={() => this.setState({ toastOpen: false, toastMsg: "" })}>
                             Add to cart warning
@@ -205,6 +207,7 @@ export const getServerSideProps = async (ctx) => {
 
         return {
             props: {
+                url: ctx.req.url,
                 detail: res.data[0]
             }
         }

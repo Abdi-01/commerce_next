@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import { loginAction, keepLogin } from '../../redux/actions'
 import HeadPage from '../../components/headPage';
 import * as gtag from "../../lib/gtag"
-
 class ProductsPage extends React.Component {
     constructor(props) {
         super(props);
@@ -119,16 +118,18 @@ class ProductsPage extends React.Component {
     }
 
     render() {
+        // console.log(window.location.href)
         return (
             <div className="pt-4 p-md-5">
                 <HeadPage
                     title="Products"
                     description="All Products Collection by Commerce"
                     image=""
+                    url={this.props.url}
                 />
                 <div className="container">
                     <HeaderComp />
-                    <div className='row shadow rounded-lg' style={{ height: "fit-content", borderRadius:25 }}>
+                    <div className='row shadow rounded-lg' style={{ height: "fit-content", borderRadius: 25 }}>
                         <div className="col-md-3 bg-white p-2 rounded mb-3" style={{ height: "fit-content" }}>
                             <div className='row m-auto' style={{ display: "flex", justifyContent: "space-around" }}>
                                 <FormGroup className='col-md-12'>
@@ -189,7 +190,8 @@ export const getStaticProps = async (ctx) => {
         let res = await axios.get(API_URL + "/products");
         return {
             props: {
-                products: res.data // data yang didapatkan akan masuk kedalam props
+                products: res.data, // data yang didapatkan akan masuk kedalam props
+                // url: ctx.req.url
             },
             revalidate: 1 //untuk melakukan validasi ulang jika ada perubahan pada API
         }
