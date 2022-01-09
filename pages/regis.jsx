@@ -97,66 +97,67 @@ const RegisPage = (props) => {
     }
 
     return (
-        <div className="container p-5">
-            <HeadPage
-                title="Register"
-                description="Create your account for shopping"
-                image=""
-            />
-            <span className="text-center p-5">
-                <h1 className="mb-5">Register Account</h1>
-                <p className="text-muted w-50 m-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Placeat aperiam quaerat perferendis ullam ducimus itaque, tempore, vel,
-                    officia atque adipisci quas aliquid explicabo beatae accusamus iusto saepe earum nobis fugit?</p>
-            </span>
-            <div>
-                <Toast isOpen={state.toastOpen} style={{ position: "fixed", top: "2vh", right: 0, marginRight: 12 }}>
-                    <ToastHeader icon={state.toastIcon} toggle={() => setState({ ...state, toastOpen: false })}>
-                        {state.toastHeader}
-                    </ToastHeader>
-                    <ToastBody>
-                        {state.toastMessage}
-                    </ToastBody>
-                </Toast>
-            </div>
-            <div style={{ width: "20vw", margin: "auto", paddingTop: "5vh" }}>
-                <FormGroup>
-                    <Label for="textUsername">Username</Label>
-                    <Input type="text" id="textUsername" placeholder="Example : August01"
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="textEmail">Email</Label>
-                    <Input type="email" id="textEmail" placeholder="Example : edinson@mail.com"
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="textPassword">Password</Label>
-                    <InputGroup>
-                        <Input type={state.regPassType} id="textPassword" placeholder="min. 6 Character"
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                        <InputGroupText style={{ cursor: "pointer" }} onClick={onBtShowPassRegis}>
-                            {state.regPassShow}
-                        </InputGroupText>
-                    </InputGroup>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="textPassword">Confirmation Password</Label>
-                    <InputGroup>
-                        <Input type={state.regPassType} id="textPassword" placeholder="min. 6 Character"
-                            onChange={(e) => setConfPassword(e.target.value)}
-                        />
-                        <InputGroupText style={{ cursor: "pointer" }} onClick={onBtShowPassRegis}>
-                            {state.regPassShow}
-                        </InputGroupText>
-                    </InputGroup>
-                </FormGroup>
+        <div className='row m-0'>
+            <div className="col-md-3 p-5 m-auto">
+                <HeadPage
+                    title="Register"
+                    description="Create your account for shopping"
+                    image=""
+                />
+                <span className="text-center p-5">
+                    <h1 className="mb-5">Register Account</h1>
+                    <p className="text-muted m-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Placeat aperiam quaerat perferendis ullam ducimus itaque, tempore, vel.</p>
+                </span>
                 <div>
-                    <a className="btn btn-outline-secondary" href="/" style={{ width: "49%", marginRight: "1%" }}>&larr; Cancel</a>
-                    <Button style={{ width: "49%", marginLeft: "1%" }} color="primary" onClick={onBtSubmit}>Submit &uarr;</Button>
+                    <Toast isOpen={state.toastOpen} style={{ position: "fixed", top: "2vh", right: 0, marginRight: 12 }}>
+                        <ToastHeader icon={state.toastIcon} toggle={() => setState({ ...state, toastOpen: false })}>
+                            {state.toastHeader}
+                        </ToastHeader>
+                        <ToastBody>
+                            {state.toastMessage}
+                        </ToastBody>
+                    </Toast>
+                </div>
+                <div style={{ margin: "auto" }}>
+                    <FormGroup>
+                        <Label for="textUsername">Username</Label>
+                        <Input type="text" id="textUsername" placeholder="Example : August01"
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="textEmail">Email</Label>
+                        <Input type="email" id="textEmail" placeholder="Example : edinson@mail.com"
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="textPassword">Password</Label>
+                        <InputGroup>
+                            <Input type={state.regPassType} id="textPassword" placeholder="min. 6 Character"
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <InputGroupText style={{ cursor: "pointer" }} onClick={onBtShowPassRegis}>
+                                {state.regPassShow}
+                            </InputGroupText>
+                        </InputGroup>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="textPassword">Confirmation Password</Label>
+                        <InputGroup>
+                            <Input type={state.regPassType} id="textPassword" placeholder="min. 6 Character"
+                                onChange={(e) => setConfPassword(e.target.value)}
+                            />
+                            <InputGroupText style={{ cursor: "pointer" }} onClick={onBtShowPassRegis}>
+                                {state.regPassShow}
+                            </InputGroupText>
+                        </InputGroup>
+                    </FormGroup>
+                    <div>
+                        <a className="btn btn-outline-secondary" href="/" style={{ width: "49%", marginRight: "1%" }}>&larr; Cancel</a>
+                        <Button style={{ width: "49%", marginLeft: "1%" }} color="primary" onClick={onBtSubmit}>Submit &uarr;</Button>
+                    </div>
                 </div>
             </div>
         </div>
