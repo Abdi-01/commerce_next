@@ -26,8 +26,8 @@ class ProductsPage extends React.Component {
         let { page, products } = this.state
         if (products)
             return products.slice(page > 1 ? (page - 1) * 8 : page - 1, page * 8).map((value, index) => {
-                return <div key={index} className="col-md-3 mt-3">
-                    <Card className="shadow" style={{ border: "none" }} onClick={() => gtag.event({
+                return <div key={index} className="col-6 col-md-3 mt-3">
+                    <Card className="shadow-sm" style={{ border: "none" }} onClick={() => gtag.event({
                         action: `view_product`,
                         category: value.kategori,
                         label: "detail_product",
@@ -45,7 +45,7 @@ class ProductsPage extends React.Component {
                         </Link>
                         <CardBody>
                             <div>
-                                <p className='text-muted m-0'>{value.kategori}</p>
+                                <p className='text-muted m-0' style={{ fontSize: value.kategori.split(" ").length > 3 ? "0.58rem" : "0.8rem" }}>{value.kategori}</p>
                                 <CardTitle tag="h5" style={{ fontWeight: "bolder" }}>{value.nama}</CardTitle>
                                 <CardTitle tag="h6" style={{}}>Rp. {value.harga.toLocaleString()}</CardTitle>
                             </div>
@@ -120,7 +120,7 @@ class ProductsPage extends React.Component {
 
     render() {
         return (
-            <div className="pt-5">
+            <div className="pt-4 p-md-5">
                 <HeadPage
                     title="Products"
                     description="All Products Collection by Commerce"
@@ -128,47 +128,53 @@ class ProductsPage extends React.Component {
                 />
                 <div className="container">
                     <HeaderComp />
-                    <div className="shadow bg-white p-2 rounded mb-3">
-                        <div className='row m-auto' style={{ display: "flex", justifyContent: "space-around" }}>
-                            <FormGroup className='col-md-2'>
-                                <Label>Nama</Label>
-                                <Input type="text" id="text" placeholder="Cari produk"
-                                    innerRef={(element) => this.inSearchName = element} />
-                            </FormGroup>
-                            <FormGroup className='col-md-5'>
-                                <Label>Harga</Label>
-                                <div className="d-flex">
-                                    <Input type="number" id="numb1" placeholder="Minimum"
-                                        innerRef={(element) => this.inSearchMin = element} />
-                                    <Input type="number" id="numb2" placeholder="Maksimum"
-                                        innerRef={(element) => this.inSearchMax = element} />
+                    <div className='row shadow rounded-lg' style={{ height: "fit-content", borderRadius:25 }}>
+                        <div className="col-md-3 bg-white p-2 rounded mb-3" style={{ height: "fit-content" }}>
+                            <div className='row m-auto' style={{ display: "flex", justifyContent: "space-around" }}>
+                                <FormGroup className='col-md-12'>
+                                    <Label>Nama</Label>
+                                    <Input type="text" id="text" placeholder="Cari produk"
+                                        innerRef={(element) => this.inSearchName = element} />
+                                </FormGroup>
+                                <FormGroup className='col-md-12'>
+                                    <Label>Harga</Label>
+                                    <div className="d-flex">
+                                        <Input type="number" id="numb1" placeholder="Minimum"
+                                            innerRef={(element) => this.inSearchMin = element} />
+                                        <Input type="number" id="numb2" placeholder="Maksimum"
+                                            innerRef={(element) => this.inSearchMax = element} />
+                                    </div>
+                                </FormGroup>
+                                <FormGroup className='col-5 col-md-12'>
+                                    <Label>Sort</Label>
+                                    <Input type="select" onChange={this.handleSort}>
+                                        <option value="harga-asc">Harga Asc</option>
+                                        <option value="harga-desc">Harga Desc</option>
+                                        <option value="nama-asc">A-Z</option>
+                                        <option value="nama-desc">Z-A</option>
+                                        {/* <option value="id-asc">Reset</option> */}
+                                    </Input>
+                                </FormGroup>
+                                <div className="col-7 col-md-12 my-auto pt-3 pt-md-2" style={{ textAlign: "end" }}>
+                                    <Button outline color="warning" onClick={this.btReset}>Reset</Button>
+                                    <Button style={{ marginLeft: 16 }} color="primary" onClick={this.btSearch}>Filter</Button>
                                 </div>
-                            </FormGroup>
-                            <FormGroup className='col-md-2'>
-                                <Label>Sort</Label>
-                                <Input type="select" onChange={this.handleSort}>
-                                    <option value="harga-asc">Harga Asc</option>
-                                    <option value="harga-desc">Harga Desc</option>
-                                    <option value="nama-asc">A-Z</option>
-                                    <option value="nama-desc">Z-A</option>
-                                    {/* <option value="id-asc">Reset</option> */}
-                                </Input>
-                            </FormGroup>
-                            <div className="col-md-3 my-auto pt-2" style={{ textAlign: "end" }}>
-                                <Button outline color="warning" onClick={this.btReset}>Reset</Button>
-                                <Button style={{ marginLeft: 16 }} color="primary" onClick={this.btSearch}>Filter</Button>
+                            </div>
+                            <img className='p-5 d-none d-md-block' src="https://www.sipayo.com/wp-content/uploads/2017/12/e-commerce.png"
+                                width="100%" alt="logo-brand" />
+                        </div>
+                        <div className='col-md-9'>
+                            <div className="row">
+                                {this.printProducts()}
+                            </div>
+                            <div className="mt-3 mb-3 text-center">
+                                <ButtonGroup>
+                                    {
+                                        this.printBtPagination()
+                                    }
+                                </ButtonGroup>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        {this.printProducts()}
-                    </div>
-                    <div className="my-5 text-center">
-                        <ButtonGroup>
-                            {
-                                this.printBtPagination()
-                            }
-                        </ButtonGroup>
                     </div>
                 </div>
             </div>
