@@ -10,12 +10,13 @@ const HeaderComp = (props) => {
 
     const dispatch = useDispatch()
 
-    const { username, cart, iduser } = useSelector((state) => {
+    const { username, cart, iduser, photo } = useSelector((state) => {
         console.log("cek get data", state)
         return {
             username: state.userReducer.username,
             cart: state.userReducer.cart,
-            iduser: state.userReducer.id
+            iduser: state.userReducer.id,
+            photo: state.userReducer.photo
         }
     })
 
@@ -43,7 +44,7 @@ const HeaderComp = (props) => {
                             </div>
                             <div className="col-md-4 d-flex align-items-center ">
                                 <div className="d-none d-lg-block">
-                                    <span style={{ display: 'flex', alignItems: 'center', justifyContent:"center", width: "fit-content" }}>
+                                    <span style={{ display: 'flex', alignItems: 'center', justifyContent: "center", width: "fit-content" }}>
                                         <span className="material-icons" style={{ cursor: 'pointer' }} onClick={() => this.onBtDec(index)}>
                                             remove
                                         </span>
@@ -94,9 +95,13 @@ const HeaderComp = (props) => {
                                     Logout
                                 </Button>
                             </div>
-                            <h2 className='order-1' style={{ color: "#34495e" }}>Hai, <span style={{ color: "#0070F3" }}>{username}</span>
-                                <h2 >Mau belanja apa hari ini ?</h2>
-                            </h2>
+                            <div className='order-1 d-flex align-items-center'>
+                                <img className='shadow mx-4 rounded-circle' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXGn_Y-UR4bB-Zj7XTbhjtRHjTgM_Fil22NQ0sCBz6Ul8_0L2gTzUjgqCMuJ_LTiMpqm0&usqp=CAU"
+                                    width="70px" height="70px" alt="logo-brand" />
+                                <h2 style={{ color: "#34495e" }}>Hai, <span style={{ color: "#0070F3" }}>{username}</span>
+                                    <h2 >Mau belanja apa hari ini ?</h2>
+                                </h2>
+                            </div>
                         </div>
                         :
                         <div>
