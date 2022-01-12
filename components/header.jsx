@@ -71,7 +71,7 @@ const HeaderComp = (props) => {
                                         <span className="material-icons" style={{ cursor: 'pointer' }} onClick={() => onBtDec(index)}>
                                             remove
                                         </span>
-                                        <Input className='p-0' placeholder="qty" value={value.qty} style={{ display: 'inline-block', textAlign: 'center', fontSize:"0.9em" }} />
+                                        <Input className='p-0' disabled placeholder="qty" value={value.qty} style={{ display: 'inline-block', textAlign: 'center', fontSize:"0.9em" }} />
                                         <span className="material-icons" style={{ cursor: 'pointer' }} onClick={() => onBtInc(index)}>
                                             add
                                         </span>
