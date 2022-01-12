@@ -28,3 +28,15 @@ a {
   50%{opacity: .5;}
   100%{opacity: 1;}
 }
+
+.cart-width{
+  width: 20vw;
+  padding:5px;
+}
+
+@media only screen and (max-width: 600px) {
+  .cart-width{
+    width: 75vw;
+    padding:1px;
+  }
+}

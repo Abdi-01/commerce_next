@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Router from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { Badge, Button, Dropdown, Input, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
-import { logoutAction } from '../redux/actions';
+import { logoutAction, updateUserCart } from '../redux/actions';
 import { HiShoppingCart } from "react-icons/hi";
+import { HiOutlineTrash } from "react-icons/hi";
 import Link from 'next/link';
 
 const HeaderComp = (props) => {
@@ -21,6 +22,7 @@ const HeaderComp = (props) => {
     })
 
     const [loading, setLoading] = useState(false);
+    const [visible, setVisible] = useState(false);
 
     useEffect(() => {
         console.log("logout", username)
@@ -29,37 +31,71 @@ const HeaderComp = (props) => {
         // }
     })
 
+    const onBtInc = (idx) => {
+        let temp = [...cart]
+        temp[idx].qty++
+
+        dispatch(updateUserCart(temp, iduser))
+    }
+
+    const onBtDec = (idx) => {
+        let temp = [...cart]
+        if (temp[idx].qty > 1) {
+            temp[idx].qty--
+        } else {
+            temp.splice(idx, 1)
+        }
+        dispatch(updateUserCart(temp, iduser))
+    }
+
+    const onBtRemove = (idx) => {
+        let temp = [...cart]
+        temp.splice(idx, 1)
+
+        dispatch(updateUserCart(temp, iduser))
+    }
+
     const printCart = () => {
         return cart.map((value, index) => {
             return (
-                <DropdownItem key={index} style={{ width: "25vw", padding: 5 }}>
+                <div key={index} className='cart-width'>
                     <div className="shadow-sm p-1 bg-white rounded" >
                         <div className='row'>
-                            <div className="col-6 col-lg-2">
+                            <div className="col-3 col-md-2">
                                 <img src={value.image} width="100%" />
                             </div>
-                            <div className="col-6 col-lg-6 d-flex justify-content-center flex-column">
-                                <p style={{ fontWeight: 'bolder', fontSize: 12, margin: 0 }}>{value.nama} | <p style={{ fontWeight: 'bolder', fontSize: 12, margin: 0 }}>{value.type}</p></p>
-                                <p style={{ fontWeight: 'bolder', fontSize: 12 }}>Rp {value.harga.toLocaleString()}</p>
-                            </div>
-                            <div className="col-md-4 d-flex align-items-center ">
-                                <div className="d-none d-lg-block">
+                            <div className="col-9 col-md-10 d-flex justify-content-center flex-column">
+                                <p style={{ fontWeight: 'bolder', fontSize: 12, margin: 0 }}>{value.nama} <span className="d-none d-lg-inline">| {value.type}</span><span className="d-none d-lg-inline">| Rp {value.harga.toLocaleString()}</span></p>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: "center"}}>
                                     <span style={{ display: 'flex', alignItems: 'center', justifyContent: "center", width: "fit-content" }}>
-                                        <span className="material-icons" style={{ cursor: 'pointer' }} onClick={() => this.onBtDec(index)}>
+                                        <span className="material-icons" style={{ cursor: 'pointer' }} onClick={() => onBtDec(index)}>
                                             remove
                                         </span>
-                                        <Input placeholder="qty" value={value.qty} style={{ width: "50%", display: 'inline-block', textAlign: 'center' }} />
-                                        <span className="material-icons" style={{ cursor: 'pointer' }} onClick={() => this.onBtInc(index)}>
+                                        <Input className='p-0' placeholder="qty" value={value.qty} style={{ display: 'inline-block', textAlign: 'center', fontSize:"0.9em" }} />
+                                        <span className="material-icons" style={{ cursor: 'pointer' }} onClick={() => onBtInc(index)}>
                                             add
                                         </span>
                                     </span>
-                                    <p className='text-center w-100'>Rp {(value.harga * value.qty).toLocaleString()}</p>
+                                    <p className='text-center w-100 my-auto' style={{ fontWeight: "bold", fontSize:"0.8em" }}>Rp {(value.harga * value.qty).toLocaleString()}</p>
+                                    <HiOutlineTrash color='orange' style={{ cursor: 'pointer', fontSize:"2.5em" }} onClick={() => onBtRemove(index)}/>
                                 </div>
                             </div>
+                            {/* <div className="col-md-4 d-flex align-items-center ">
+                                <div className="d-none d-lg-block">
+                                    <span style={{ display: 'flex', alignItems: 'center', justifyContent: "center", width: "fit-content" }}>
+                                        <span className="material-icons" style={{ cursor: 'pointer' }} onClick={() => onBtDec(index)}>
+                                            remove
+                                        </span>
+                                        <Input placeholder="qty" value={value.qty} style={{ width: "50%", display: 'inline-block', textAlign: 'center' }} />
+                                        <span className="material-icons" style={{ cursor: 'pointer' }} onClick={() => onBtInc(index)}>
+                                            add
+                                        </span>
+                                    </span>
+                                </div>
+                            </div> */}
                         </div>
-                        <Button outline size='sm' color="warning" style={{ width: "100%" }} onClick={() => this.onBtRemove(index)}>Remove</Button>
                     </div>
-                </DropdownItem>
+                </div>
             )
         })
     }
@@ -73,12 +109,12 @@ const HeaderComp = (props) => {
                     iduser ?
                         <div className='d-md-flex justify-content-between align-items-center'>
                             <div className="d-flex justify-content-end order-md-2">
-                                <UncontrolledDropdown>
-                                    <DropdownToggle outline color='primary' style={{ border: 0 }}>
+                                <Dropdown isOpen={visible} toggle={() => setVisible(!visible)}>
+                                    <DropdownToggle outline color='primary' onClick={() => setVisible(!visible)} style={{ border: 0 }}>
                                         <HiShoppingCart size={24} />
                                         <Badge color='warning'>{cart.length}</Badge>
                                     </DropdownToggle>
-                                    <DropdownMenu right >
+                                    <DropdownMenu right style={{ maxHeight: "40vh", overflowY: "scroll", overflowX: "hidden" }}>
                                         {
                                             cart.length > 0 ?
                                                 printCart()
@@ -88,7 +124,7 @@ const HeaderComp = (props) => {
                                                 </DropdownItem>
                                         }
                                     </DropdownMenu>
-                                </UncontrolledDropdown>
+                                </Dropdown>
                                 <Button className='p-2'
                                     outline color='danger'
                                     size='sm' style={{ height: "fit-content" }} onClick={() => dispatch(logoutAction())}>
