@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { loginAction, keepLogin } from '../../redux/actions'
 import HeadPage from '../../components/headPage';
 import * as gtag from "../../lib/gtag"
+import { HiOutlineHeart } from 'react-icons/hi';
 class ProductsPage extends React.Component {
     constructor(props) {
         super(props);
@@ -25,28 +26,33 @@ class ProductsPage extends React.Component {
         let { page, products } = this.state
         if (products)
             return products.slice(page > 1 ? (page - 1) * 8 : page - 1, page * 8).map((value, index) => {
-                return <div key={index} className="col-6 col-md-3 mt-3">
-                    <Card className="shadow-sm" style={{ border: "none" }} onClick={() => gtag.event({
+                return <div key={index} className="col-6 col-md-3 mt-3 ">
+                    <Card className="shadow" style={{ border: "none", borderRadius: 20 }} onClick={() => gtag.event({
                         action: `view_product`,
                         category: value.kategori,
                         label: "detail_product",
                         value: value.nama,
                     })}>
+                        <CardTitle className='bg-primary p-2' style={{ position: "absolute", right: 0, borderBottomLeftRadius: 20, borderTopRightRadius: 20, color: "white", opacity: 0.8 }}>Rp. {value.harga.toLocaleString()}</CardTitle>
                         <Link href={`/products/product-detail?id=${value.id}`}
-                            style={{ textDecoration: "none", color: "black" }}
                         >
                             <CardImg top
                                 src={value.images[0]}
                                 width="100%"
                                 alt={`${value.nama}-${index}`}
                                 className="shadow-sm"
+                                style={{ borderRadius: 20 }}
                             />
                         </Link>
                         <CardBody>
                             <div>
-                                <p className='text-muted m-0' style={{ fontSize: value.kategori.split(" ").length > 3 ? "0.58rem" : "0.8rem" }}>{value.kategori}</p>
-                                <CardTitle tag="h5" style={{ fontWeight: "bolder" }}>{value.nama}</CardTitle>
-                                <CardTitle tag="h6" style={{}}>Rp. {value.harga.toLocaleString()}</CardTitle>
+                                <p className='text-muted m-0' style={{ fontSize: value.kategori.split(" ").length > 3 ? "0.58rem" : "0.7rem" }}>{value.kategori}</p>
+                                <CardTitle tag="h6" style={{ fontWeight: "bolder" }}>{value.nama}</CardTitle>
+                                <CardTitle tag="h3" className='' style={{ fontWeight: "bolder", position: "absolute", right: "5%", bottom: "5%", color: "#d63031" }}>
+                                    
+                                    <HiOutlineHeart/>
+                                    
+                                    </CardTitle>
                             </div>
                         </CardBody>
                     </Card>
@@ -62,7 +68,7 @@ class ProductsPage extends React.Component {
         let btn = []
         // if (this.props.products)
         for (let i = 0; i < Math.ceil(this.state.products.length / 8); i++) {
-            btn.push(<Button outline color="primary"
+            btn.push(<Button outline={this.state.page == i + 1 ? false : true} color='primary' className={`rounded-circle shadow-sm`}
                 disabled={this.state.page == i + 1 ? true : false}
                 onClick={() => this.setState({ page: i + 1 })}>
                 {i + 1}
@@ -129,7 +135,7 @@ class ProductsPage extends React.Component {
                 />
                 <div className="container">
                     <HeaderComp />
-                    <div className='row shadow rounded-lg' style={{ height: "fit-content", borderRadius: 25 }}>
+                    <div className='row shadow rounded-lg ' style={{ height: "fit-content", borderRadius: 25 }}>
                         <div className="col-md-3 bg-white p-2 rounded mb-3" style={{ height: "fit-content" }}>
                             <div className='row m-auto' style={{ display: "flex", justifyContent: "space-around" }}>
                                 <FormGroup className='col-md-12'>
