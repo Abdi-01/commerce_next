@@ -52,3 +52,24 @@ export const updateUserCart = (data, iduser) => {
         }
     }
 }
+
+export const updateWishlist = (data, iduser) => {
+    return async (dispatch, getState) => {
+        try {
+            // console.log("test")
+            let res = await axios.patch(`${API_URL}/users/${iduser}`, {
+                wishlist: data
+            })
+
+            dispatch({
+                type: "UPDATE_WISHLIST_USER",
+                payload: res.data.wishlist
+            })
+
+            return { success: true, message: "Add to cart success" }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}

@@ -1,15 +1,16 @@
 // Contoh penerapan SSG (Static Site Generation) : program yang berupa JS langsung dijadikan sebagai html
 import React from 'react';
-import { Button, ButtonGroup, Card, CardBody, CardImg, CardTitle, FormGroup, Input, InputGroup, InputGroupText, Label, Spinner } from 'reactstrap'
+import { Button, ButtonGroup, Card, CardBody, CardImg, CardTitle, Collapse, FormGroup, Input, InputGroup, InputGroupText, Label, Spinner } from 'reactstrap'
 import axios from 'axios';
 import { API_URL } from '../api/helper';
 import Link from 'next/link';
 import HeaderComp from '../../components/header';
 import { connect } from 'react-redux';
-import { loginAction, keepLogin } from '../../redux/actions'
+import { loginAction, keepLogin, updateWishlist } from '../../redux/actions'
 import HeadPage from '../../components/headPage';
 import * as gtag from "../../lib/gtag"
-import { HiOutlineHeart } from 'react-icons/hi';
+import { HiArrowCircleDown, HiHeart, HiOutlineHeart } from 'react-icons/hi';
+import Image from 'next/image';
 class ProductsPage extends React.Component {
     constructor(props) {
         super(props);
@@ -17,7 +18,8 @@ class ProductsPage extends React.Component {
         this.state = {
             page: 1,
             loading: true,
-            products: this.props.products
+            products: this.props.products,
+            collapseFilter: false
         }
     }
 
@@ -26,6 +28,8 @@ class ProductsPage extends React.Component {
         let { page, products } = this.state
         if (products)
             return products.slice(page > 1 ? (page - 1) * 8 : page - 1, page * 8).map((value, index) => {
+                let wishlistProduct = this.props.wishlist.findIndex(val => val.idProduct == value.id)
+                console.log(wishlistProduct)
                 return <div key={index} className="col-6 col-md-3 mt-3 ">
                     <Card className="shadow" style={{ border: "none", borderRadius: 20 }} onClick={() => gtag.event({
                         action: `view_product`,
@@ -46,13 +50,17 @@ class ProductsPage extends React.Component {
                         </Link>
                         <CardBody>
                             <div>
-                                <p className='text-muted m-0' style={{ fontSize: value.kategori.split(" ").length > 3 ? "0.58rem" : "0.7rem" }}>{value.kategori}</p>
+                                <p className='text-muted d-none d-md-block m-0' style={{ fontSize: value.kategori.split(" ").length > 3 ? "0.58rem" : "0.7rem" }}>{value.kategori}</p>
                                 <CardTitle tag="h6" style={{ fontWeight: "bolder" }}>{value.nama}</CardTitle>
                                 <CardTitle tag="h3" className='' style={{ fontWeight: "bolder", position: "absolute", right: "5%", bottom: "5%", color: "#d63031" }}>
-                                    
-                                    <HiOutlineHeart/>
-                                    
-                                    </CardTitle>
+                                    {
+                                        wishlistProduct >= 0 ?
+                                            <HiHeart onClick={() => this.btWishlist(index, value.id)} />
+                                            :
+                                            <HiOutlineHeart onClick={() => this.btWishlist(index, value.id)} />
+                                    }
+
+                                </CardTitle>
                             </div>
                         </CardBody>
                     </Card>
@@ -68,7 +76,7 @@ class ProductsPage extends React.Component {
         let btn = []
         // if (this.props.products)
         for (let i = 0; i < Math.ceil(this.state.products.length / 8); i++) {
-            btn.push(<Button outline={this.state.page == i + 1 ? false : true} color='primary' className={`rounded-circle shadow-sm`}
+            btn.push(<Button outline={this.state.page == i + 1 ? false : true} color='primary' className={`rounded shadow-sm m-1`}
                 disabled={this.state.page == i + 1 ? true : false}
                 onClick={() => this.setState({ page: i + 1 })}>
                 {i + 1}
@@ -76,6 +84,21 @@ class ProductsPage extends React.Component {
         }
 
         return btn;
+    }
+
+    btWishlist = (idx, idProduct) => {
+        let temp = [...this.props.wishlist]
+        let checkProduct = temp.filter(val => val.idProduct == idProduct)
+        if (checkProduct.length > 0) {
+            temp.splice(temp.findIndex(val => val.idProduct == idProduct), 1)
+        } else {
+            temp.push({
+                idProduct,
+                idxProduct: idx
+            })
+        }
+
+        this.props.updateWishlist(temp, this.props.idUser)
     }
 
     btSearch = () => {
@@ -143,32 +166,46 @@ class ProductsPage extends React.Component {
                                     <Input type="text" id="text" placeholder="Cari produk"
                                         innerRef={(element) => this.inSearchName = element} />
                                 </FormGroup>
-                                <FormGroup className='col-md-12'>
-                                    <Label>Harga</Label>
-                                    <div className="d-flex">
-                                        <Input type="number" id="numb1" placeholder="Minimum"
-                                            innerRef={(element) => this.inSearchMin = element} />
-                                        <Input type="number" id="numb2" placeholder="Maksimum"
-                                            innerRef={(element) => this.inSearchMax = element} />
-                                    </div>
-                                </FormGroup>
-                                <FormGroup className='col-5 col-md-12'>
-                                    <Label>Sort</Label>
-                                    <Input type="select" onChange={this.handleSort}>
-                                        <option value="harga-asc">Harga Asc</option>
-                                        <option value="harga-desc">Harga Desc</option>
-                                        <option value="nama-asc">A-Z</option>
-                                        <option value="nama-desc">Z-A</option>
-                                        {/* <option value="id-asc">Reset</option> */}
-                                    </Input>
-                                </FormGroup>
-                                <div className="col-7 col-md-12 my-auto pt-3 pt-md-2" style={{ textAlign: "end" }}>
+                                <a style={{ textAlign: "right", cursor: "pointer" }}
+                                    onClick={() => this.setState({ collapseFilter: !this.state.collapseFilter })}
+                                >
+                                    Other Sort and Filter
+                                    <HiArrowCircleDown /></a>
+                                <Collapse isOpen={this.state.collapseFilter}>
+                                    <FormGroup className='col-md-12'>
+                                        <Label>Harga</Label>
+                                        <div className="d-flex">
+                                            <Input type="number" id="numb1" placeholder="Minimum"
+                                                innerRef={(element) => this.inSearchMin = element} />
+                                            <Input type="number" id="numb2" placeholder="Maksimum"
+                                                innerRef={(element) => this.inSearchMax = element} />
+                                        </div>
+                                    </FormGroup>
+                                    <FormGroup className='col-5 col-md-12'>
+                                        <Label>Sort</Label>
+                                        <Input type="select" onChange={this.handleSort}>
+                                            <option value="harga-asc">Harga Asc</option>
+                                            <option value="harga-desc">Harga Desc</option>
+                                            <option value="nama-asc">A-Z</option>
+                                            <option value="nama-desc">Z-A</option>
+                                            {/* <option value="id-asc">Reset</option> */}
+                                        </Input>
+                                    </FormGroup>
+                                </Collapse>
+                                <div className="col-md-12 my-auto pt-3 pt-md-2" style={{ textAlign: "end" }}>
                                     <Button outline color="warning" onClick={this.btReset}>Reset</Button>
                                     <Button style={{ marginLeft: 16 }} color="primary" onClick={this.btSearch}>Filter</Button>
                                 </div>
                             </div>
-                            <img className='p-5 d-none d-md-block' src="https://www.sipayo.com/wp-content/uploads/2017/12/e-commerce.png"
-                                width="100%" alt="logo-brand" />
+                            <div className="p-5 d-none d-md-block">
+                                <Image
+                                    className="shadow-sm bg-white rounded "
+                                    src={require('../../assets/shopping.svg')}
+                                    alt="product"
+                                    layout='responsive'
+                                    objectFit={'contain'}
+                                />
+                            </div>
                         </div>
                         <div className='col-md-9'>
                             <div className="row">
@@ -208,9 +245,10 @@ export const getStaticProps = async (ctx) => {
 
 const mapToProps = ({ userReducer }) => {
     return {
-        iduser: userReducer.id,
-        cart: userReducer.cart
+        idUser: userReducer.id,
+        cart: userReducer.cart,
+        wishlist: userReducer.wishlist
     }
 }
 
-export default connect(mapToProps, { loginAction, keepLogin })(ProductsPage);
+export default connect(mapToProps, { loginAction, keepLogin, updateWishlist })(ProductsPage);

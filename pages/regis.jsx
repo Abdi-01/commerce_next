@@ -4,6 +4,8 @@ import Router from 'next/router'; // library routing dari next js sehingga tidak
 import { FormGroup, Label, Input, InputGroup, InputGroupText, Button, Toast, ToastHeader, ToastBody } from 'reactstrap';
 import { API_URL } from './api/helper';
 import HeadPage from '../components/headPage';
+import { HiEye, HiEyeOff } from 'react-icons/hi';
+
 const RegisPage = (props) => {
 
     const [username, setUsername] = useState('')
@@ -51,7 +53,8 @@ const RegisPage = (props) => {
                         //     toastIcon: "success",
                         //     toastMessage: "Registrasi Berhasil ✅"
                         // })
-                        Router.back();// back to previous page
+                        // Router.back();// back to previous page
+                        props.btCancel()
                         setUsername("")
                         setEmail("")
                         setPassword("")
@@ -98,17 +101,17 @@ const RegisPage = (props) => {
 
     return (
         <div className='row m-0'>
-            <div className="col-md-3 p-5 m-auto">
-                <HeadPage
+            {/* <div className="col-md-3 p-5 m-auto"> */}
+                {/* <HeadPage
                     title="Register"
                     description="Create your account for shopping"
                     image=""
-                />
-                <span className="text-center p-5">
+                /> */}
+                {/* <span className="text-center p-5">
                     <h1 className="mb-5">Register Account</h1>
                     <p className="text-muted m-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Placeat aperiam quaerat perferendis ullam ducimus itaque, tempore, vel.</p>
-                </span>
+                </span> */}
                 <div>
                     <Toast isOpen={state.toastOpen} style={{ position: "fixed", top: "2vh", right: 0, marginRight: 12 }}>
                         <ToastHeader icon={state.toastIcon} toggle={() => setState({ ...state, toastOpen: false })}>
@@ -139,7 +142,12 @@ const RegisPage = (props) => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <InputGroupText style={{ cursor: "pointer" }} onClick={onBtShowPassRegis}>
-                                {state.regPassShow}
+                            {
+                                    state.regPassShow == "Show" ?
+                                        <HiEye />
+                                        :
+                                        <HiEyeOff />
+                                }
                             </InputGroupText>
                         </InputGroup>
                     </FormGroup>
@@ -150,16 +158,21 @@ const RegisPage = (props) => {
                                 onChange={(e) => setConfPassword(e.target.value)}
                             />
                             <InputGroupText style={{ cursor: "pointer" }} onClick={onBtShowPassRegis}>
-                                {state.regPassShow}
+                            {
+                                    state.regPassShow == "Show" ?
+                                        <HiEye />
+                                        :
+                                        <HiEyeOff />
+                                }
                             </InputGroupText>
                         </InputGroup>
                     </FormGroup>
                     <div>
-                        <a className="btn btn-outline-secondary" href="/" style={{ width: "49%", marginRight: "1%" }}>&larr; Cancel</a>
-                        <Button style={{ width: "49%", marginLeft: "1%" }} color="primary" onClick={onBtSubmit}>Submit &uarr;</Button>
+                        <a className="btn btn-outline-secondary" style={{ width: "49%", marginRight: "1%" }} onClick={props.btCancel}>&larr; Cancel</a>
+                        <Button style={{ width: "49%", marginLeft: "1%" }} color="primary" onClick={onBtSubmit}>Submit</Button>
                     </div>
                 </div>
-            </div>
+            {/* </div> */}
         </div>
     )
 }

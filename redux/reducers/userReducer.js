@@ -5,7 +5,8 @@ const INITIAL_STATE = {
     role: "",
     status: "",
     photo: "",
-    cart: []
+    cart: [],
+    wishlist: []
 }
 
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -18,6 +19,8 @@ export const userReducer = (state = INITIAL_STATE, action) => {
             return INITIAL_STATE;
         case "UPDATE_CART_USER":
             return { ...state, cart: action.payload }
+        case "UPDATE_WISHLIST_USER":
+            return { ...state, wishlist: action.payload }
         default:
             return state
     }
