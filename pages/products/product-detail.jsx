@@ -140,7 +140,7 @@ class ProductDetail extends React.Component {
                                         objectFit={'contain'}
                                     />
                                 </div>
-                                <div className="col-md-2 order-md-1 row">
+                                <div className="col-md-2 order-md-1 row d-md-block">
                                     {this.renderImages()}
                                 </div>
                             </div>
