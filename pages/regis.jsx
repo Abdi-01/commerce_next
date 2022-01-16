@@ -44,7 +44,8 @@ const RegisPage = (props) => {
                         role: "user",
                         status: "Active",
                         photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsdD1rK4ZtCJVizS00LaWifgJnY-wzSVBoHw&usqp=CAU",
-                        cart: []
+                        cart: [],
+                        wishlist: []
                     }).then((response) => {
                         // setState({
                         //     ...state,
