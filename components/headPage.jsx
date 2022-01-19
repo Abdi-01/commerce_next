@@ -4,7 +4,7 @@ import Head from "next/head";
 // konfigurasi yang diterapkan pada og atau open graph meta data
 // open graph meta data merupakan konfigurasi untuk open browse atau situs umum
 const HeadPage = (props) => {
-    console.log("cek meta url", props.url)
+    // console.log("cek meta url", props.url)
     return <Head>
         <link
             href="https://fonts.googleapis.com/icon?family=Material+Icons"

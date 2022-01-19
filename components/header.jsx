@@ -15,7 +15,7 @@ const HeaderComp = (props) => {
     const dispatch = useDispatch()
 
     const { username, cart, iduser, photo } = useSelector((state) => {
-        console.log("cek get data", state)
+        // console.log("cek get data", state)
         return {
             username: state.userReducer.username,
             cart: state.userReducer.cart,
@@ -31,7 +31,7 @@ const HeaderComp = (props) => {
     const [tabBar, setTabBar] = useState("1");
 
     useEffect(() => {
-        console.log("logout", username)
+        // console.log("logout", username)
         // if (!username) {
         //     Router.push('/')
         // }
