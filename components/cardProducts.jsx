@@ -19,15 +19,37 @@ const CardProducts = memo(({ products, btWishlist, page, wishlist }) => {
                     label: "detail_product",
                     value: value.nama,
                 })}>
-                    <CardTitle className='bg-primary p-2' style={{ position: "absolute", right: 0, borderBottomLeftRadius: 20, borderTopRightRadius: 20, color: "white", opacity: 0.8 }}>Rp. {value.harga.toLocaleString()}</CardTitle>
+                    <CardTitle className='bg-primary p-2'
+                        style={{
+                            position: "absolute",
+                            zIndex:1,
+                            right: 0,
+                            borderBottomLeftRadius: 20,
+                            borderTopRightRadius: 20,
+                            color: "white",
+                            opacity: 0.8
+                        }}>
+                        Rp. {value.harga.toLocaleString()}
+                    </CardTitle>
                     <Link href={`/products/product-detail?id=${value.id}`}
                     >
-                        <CardImg top
+                        {/* <CardImg top
                             src={value.images[0]}
                             width="100%"
-                            alt={`${value.nama}-${index}`}
                             className="shadow-sm"
                             style={{ borderRadius: 20 }}
+                            /> */}
+                        <Image
+                            className="shadow-sm bg-white rounded"
+                            loader={({ src }) => {
+                                return value.images[0]
+                            }}
+                            src="image-link"
+                            alt={`${value.nama}-${index}`}
+                            width="100%"
+                            height="100%"
+                            layout='responsive'
+                            objectFit={'contain'}
                         />
                     </Link>
                     <CardBody>
